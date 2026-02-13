@@ -5,7 +5,9 @@ class ApiService {
     async handleResponse(response) {
         if (!response.ok) {
             const error = await response.json().catch(() => ({ error: 'Request failed' }));
-            throw new Error(error.error || error.details || 'Request failed');
+            const details =
+                Array.isArray(error.details) ? error.details.join(', ') : error.details;
+            throw new Error(error.error || details || 'Request failed');
         }
         return response.json();
     }
