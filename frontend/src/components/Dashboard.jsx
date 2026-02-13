@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import apiService from '../services/api';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
+import CreateProjectModal from './CreateProjectModal';
 
 const Dashboard = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
 
     const [filters, setFilters] = useState({
         status: '',
@@ -53,10 +55,19 @@ const Dashboard = () => {
         fetchProjects();
     };
 
+    const handleProjectCreated = () => {
+        fetchProjects();
+    };
+
     return (
         <div className="dashboard">
             <header className="dashboard-header">
-                <h1>Project Tracking System</h1>
+                <div className="dashboard-header-row">
+                    <h1>Project Tracking System</h1>
+                    <button className="primary-button" onClick={() => setIsCreateOpen(true)}>
+                        New Project
+                    </button>
+                </div>
             </header>
 
             <div className="filters-section">
@@ -125,7 +136,12 @@ const Dashboard = () => {
                                 </button>
                             </>
                         ) : (
-                            <p>No projects yet. Create your first project to get started.</p>
+                            <>
+                                <p>No projects yet. Create your first project to get started.</p>
+                                <button className="primary-button" onClick={() => setIsCreateOpen(true)}>
+                                    Create Project
+                                </button>
+                            </>
                         )}
                     </div>
                 )}
@@ -148,6 +164,13 @@ const Dashboard = () => {
                     project={selectedProject}
                     onClose={() => setSelectedProject(null)}
                     onUpdate={handleProjectUpdate}
+                />
+            )}
+
+            {isCreateOpen && (
+                <CreateProjectModal
+                    onClose={() => setIsCreateOpen(false)}
+                    onCreated={handleProjectCreated}
                 />
             )}
         </div>
