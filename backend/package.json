@@ -5,10 +5,14 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node init && node src/server.js",
+    "dev": "node init && node --watch src/server.js"
   },
-  "keywords": ["project", "tracking", "api"],
+  "keywords": [
+    "project",
+    "tracking",
+    "api"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
